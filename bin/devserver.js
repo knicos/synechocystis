@@ -10,7 +10,7 @@ var serveStatic = require('serve-static');
 var port = 8000;
 
 var app = connect();
-app.use(serveStatic('.')).listen(port, function () {
+app.use(serveStatic('./build')).listen(port, function () {
   console.log('Dev Server at http://localhost:'+port);
 });
 

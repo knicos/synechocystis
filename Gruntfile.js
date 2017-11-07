@@ -14,6 +14,17 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
 
+	'gh-pages': {
+		options: {
+			base: 'build',
+			add: false,
+			repo: 'https://github.com/knicos/synechocystis.git',
+			branch: 'gh-pages',
+			message: 'Deploy ConstruitScript Build'
+		},
+		src: ['latest/synechocystis.*','index.html','data/*','css/*']
+	},
+
 	browserify: {
 		'build/latest/synechocystis.js': ['js/exports.js']
 	},
@@ -29,6 +40,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-gh-pages');
   grunt.registerTask('default', ['browserify','uglify']);
 };
 
