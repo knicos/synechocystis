@@ -1,0 +1,27 @@
+div.synechocystis-searchpanel {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	box-sizing: border-box;
+	background: #eeeeee;
+	width: 20%;
+}
+
+div.synechocystis-labels {
+	padding: 15px;
+	overflow-y: scroll;
+	display: flex;
+	flex-wrap: wrap;
+	background: #eeeeee;
+}
+
+button.synechocystis-label {
+	border: none;
+	border-radius: 5px;
+	padding: 10px 15px;
+	margin: 2px;
+	font-size: 1.2em;
+	color: white;
+	cursor: pointer;
+}
