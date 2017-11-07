@@ -1,0 +1,29 @@
+{
+  "name": "synechocystis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devserver": "node ./bin/devserver.js"
+  },
+  "author": "Nicolas Pope",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "flux-balance-analysis": "file:///home/nick/Repos/FBA",
+    "metabolic-model": "file:///home/nick/Repos/SBML"
+  },
+  "devDependencies": {
+    "browserify": "^14.5.0",
+    "connect": "^3.6.5",
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.2.0",
+    "grunt-contrib-uglify": "git+https://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
+    "mocha": "^4.0.1",
+    "serve-static": "^1.13.1",
+    "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony"
+  }
+}
