@@ -22,18 +22,32 @@ function SearchPanel(parent) {
 	this.labelbox = document.createElement("div");
 	this.labelbox.className = "synechocystis-labels";
 
+	var me = this;
+	function subsysclick(e) {
+		if (me.onsearch) {
+			var ss = e.target.getAttribute("data-label");
+			me.onsearch.call(me, model.subsystems[ss]);
+		}
+	}
+
 	for (var i=0; i<labels.length; i++) {
 		let labelitem = document.createElement("button");
 		labelitem.className = "synechocystis-label";
 		labelitem.innerText = labels[i].text;
 		labelitem.style.backgroundColor = labels[i].colour;
+		labelitem.setAttribute("data-label", labels[i].tooltip);
 		if (labels[i].tooltip) {
 			labelitem.title = labels[i].tooltip;
 			//console.log(labels[i].tooltip);
 		}
+
+		this.labelbox.addEventListener("click", subsysclick);
+
 		this.labelbox.appendChild(labelitem);
 	}
 	this.topbox.appendChild(this.labelbox);
+
+	this.onsearch = null;
 
 	if (parent) parent.appendChild(this.element);
 }

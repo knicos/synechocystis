@@ -9,8 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devserver": "node ./bin/devserver.js",
-	"devdeploy": "cp ./index.html ./build/index.html && cp -r ./css ./build/css && cp -r ./data ./build/data && grunt browserify",
-    "deploy": "grunt && cp ./index.html build/index.html && cp -r ./css ./build/css && cp -r ./data ./build/data && grunt gh-pages"
+	"devdeploy": "cp ./index.html ./build/index.html && cp -r ./css ./build && cp -r ./data ./build/data && grunt browserify",
+    "deploy": "grunt && cp ./index.html build/index.html && cp -r ./css ./build && cp -r ./data ./build/data && grunt gh-pages"
   },
   "author": "Nicolas Pope",
   "license": "BSD-2-Clause",

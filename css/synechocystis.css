@@ -25,3 +25,27 @@ button.synechocystis-label {
 	color: white;
 	cursor: pointer;
 }
+
+div.synechocystis-reactionpanel {
+	position: absolute;
+	left: 20%;
+	top: 0;
+	bottom: 50%;
+	right: 0;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+div.synechocystis-reaction {
+	margin: 5px;
+	padding: 15px;
+	background: #eeeeee;
+	border-radius: 5px;
+}
+
+span.synechocystis-reactionname {
+	font-weight: bold;
+}
+
+
+
