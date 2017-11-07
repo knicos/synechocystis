@@ -1,6 +1,32 @@
 <html>
 <head>
 <script src="latest/synechocystis.js"></script>
+<script src="http://d3js.org/d3.v3.js"></script>
+<style>
+
+path.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+circle {
+  fill: blue;
+  stroke: #222;
+  stroke-width: 1.5px;
+}
+
+.reaction > circle {
+	fill: orange;
+}
+
+text {
+  fill: #000;
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+</style>
 <link rel="stylesheet" href="css/synechocystis.css" type="text/css">
 </head>
 

@@ -25,7 +25,8 @@ function create(model, cb) {
 		window.model = m;
 
 		// Do initial FBA
-		FBA.run(m, m.getReactionById("R_Ec_biomass_SynAuto"), function(objective, results) {
+		m.objective = m.getReactionById("R_Ec_biomass_SynAuto");
+		FBA.run(m, m.objective, function(objective, results) {
 			for (var x in results) {
 				m.getReactionById(x).flux = results[x];
 			}
