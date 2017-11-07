@@ -6,11 +6,11 @@ div.synechocystis-searchpanel {
 	box-sizing: border-box;
 	background: #eeeeee;
 	width: 20%;
+	overflow-y: scroll;
 }
 
 div.synechocystis-labels {
 	padding: 15px;
-	overflow-y: scroll;
 	display: flex;
 	flex-wrap: wrap;
 	background: #eeeeee;
@@ -29,11 +29,23 @@ button.synechocystis-label {
 div.synechocystis-reactionpanel {
 	position: absolute;
 	left: 20%;
-	top: 0;
-	bottom: 50%;
+	top: 500px;
+	bottom: 0;
 	right: 0;
 	padding: 20px;
 	box-sizing: border-box;
+	overflow-y: scroll;
+}
+
+div.synechocystis-graph {
+	position: absolute;
+	left: 20%;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	/*padding: 20px;
+	box-sizing: border-box;*/
+	overflow-y: scroll;
 }
 
 div.synechocystis-reaction {

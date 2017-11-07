@@ -3,16 +3,19 @@ const FBA = require('flux-balance-analysis');
 
 const SearchPanel = require('./ui/searchpanel.js');
 const ReactionList = require('./ui/reactionlist.js');
+const MetabolicGraph = require('./ui/metgraph.js');
 
 function initUI() {
 	let searchpanel = new SearchPanel(document.body);
 	let reactionlist = new ReactionList(document.body);
+	let metgraph = new MetabolicGraph(document.body);
 
 	searchpanel.onsearch = function(list) {
 		reactionlist.setReactions(list);
+		metgraph.setReactions(list);
 	}
 
-	reactionlist.setReactions(["R_PSP"]);
+	//reactionlist.setReactions(["R_PSP"]);
 }
 
 function create(model, cb) {
@@ -20,6 +23,14 @@ function create(model, cb) {
 	var filename = (typeof(model) == "string") ? model : "data/iSynCJ816.xml";
 	SBML.fromURL(filename, function(m) {
 		window.model = m;
+
+		// Do initial FBA
+		FBA.run(m, m.getReactionById("R_Ec_biomass_SynAuto"), function(objective, results) {
+			for (var x in results) {
+				m.getReactionById(x).flux = results[x];
+			}
+		});
+
 		initUI();
 
 		if (callback) callback(m);

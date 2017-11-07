@@ -9,12 +9,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devserver": "node ./bin/devserver.js",
-	"devdeploy": "cp ./index.html ./build/index.html && cp -r ./css ./build && cp -r ./data ./build/data && grunt browserify",
+    "devdeploy": "cp ./index.html ./build/index.html && cp -r ./css ./build && cp -r ./data ./build/data && grunt browserify",
     "deploy": "grunt && cp ./index.html build/index.html && cp -r ./css ./build && cp -r ./data ./build/data && grunt gh-pages"
   },
   "author": "Nicolas Pope",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "3d-force-graph": "^1.10.1",
     "flux-balance-analysis": "file:///home/nick/Repos/FBA",
     "metabolic-model": "file:///home/nick/Repos/SBML"
   },
