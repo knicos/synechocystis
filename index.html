@@ -1,13 +1,17 @@
 <html>
 <head>
 <script src="latest/synechocystis.js"></script>
-<script src="http://d3js.org/d3.v3.js"></script>
+<script src="https://d3js.org/d3.v3.js"></script>
 <style>
 
 path.link {
   fill: none;
   stroke: #666;
   stroke-width: 1.5px;
+}
+
+path.link.special {
+	stroke-dasharray: 2, 2;
 }
 
 circle {
@@ -20,9 +24,14 @@ circle {
 	fill: orange;
 }
 
+.reaction.blocked > circle {
+	fill: red;
+}
+
 text {
-  fill: #000;
-  font: 10px sans-serif;
+  fill: black;
+  text-shadow: 0 0 10px white;
+  font: 14px sans-serif;
   pointer-events: none;
 }
 
@@ -32,7 +41,7 @@ text {
 
 <body>
 <script>
-Synechocystis();
+syn = Synechocystis();
 </script>
 
 </body>

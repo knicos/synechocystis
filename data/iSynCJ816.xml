@@ -10953,7 +10953,7 @@
                 <listOfReactants>
 					<speciesReference species="M_co2_x" stoichiometry="1"/>
                     <speciesReference species="M_h2o_x" stoichiometry="1"/>
-                    <speciesReference species="M_h2co3_x" stoichiometry="1"/>
+                    <speciesReference species="M_h2co3_x" stoichiometry="1">
                 </listOfReactants>
                 <listOfProducts>
                     <speciesReference species="M_h2co3_x" stoichiometry="1"/>

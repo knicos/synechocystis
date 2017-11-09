@@ -1,9 +1,13 @@
 const SBML = require('metabolic-model');
 const FBA = require('flux-balance-analysis');
 
+window.FBA = FBA;
+
 const SearchPanel = require('./ui/searchpanel.js');
 const ReactionList = require('./ui/reactionlist.js');
 const MetabolicGraph = require('./ui/metgraph.js');
+
+let refba = null;
 
 function initUI() {
 	let searchpanel = new SearchPanel(document.body);
@@ -15,6 +19,19 @@ function initUI() {
 		metgraph.setReactions(list);
 	}
 
+	reactionlist.onedit = function(r) {
+		if (refba) clearTimeout(refba);
+		refba = setTimeout(function() {
+			refba = null;
+			let m = window.model;
+			FBA.run(m, m.objective, function(objective, results) {
+				for (var x in results) {
+					m.getReactionById(x).flux = results[x];
+				}
+				console.log("Objective: ", objective);
+			});
+		}, 2000);
+	}
 	//reactionlist.setReactions(["R_PSP"]);
 }
 
@@ -25,7 +42,7 @@ function create(model, cb) {
 		window.model = m;
 
 		// Do initial FBA
-		m.objective = m.getReactionById("R_Ec_biomass_SynAuto");
+		m.objective = m.getReactionById("R_Ec_biomass_SynMixo");
 		FBA.run(m, m.objective, function(objective, results) {
 			for (var x in results) {
 				m.getReactionById(x).flux = results[x];
@@ -36,6 +53,18 @@ function create(model, cb) {
 
 		if (callback) callback(m);
 	});
+
+	return {
+		fba: function() {
+			let m = window.model;
+			FBA.run(m, m.objective, function(objective, results) {
+				for (var x in results) {
+					m.getReactionById(x).flux = results[x];
+				}
+				console.log("Objective: ", objective);
+			});
+		}
+	};
 }
 
 module.exports = create;

@@ -4,13 +4,16 @@ function MetabolicGraph(parent) {
 	this.element = document.createElement("div");
 	this.element.className = "synechocystis-graph";
 
-	var width = 960,
-    height = 500;
+	var width = 2000,
+    height = 2000;
 	this.svg = d3.select(this.element).append("svg")
 		.attr("width", width)
 		.attr("height", height);
 
 	if (parent) parent.appendChild(this.element);
+
+	this.element.scrollLeft = 1000;
+	this.element.scrollTop = 1000;
 
 	/*this.graph = ForceGraph3D();
 	this.graph(this.element); //.graphData();
@@ -21,6 +24,15 @@ function MetabolicGraph(parent) {
 	//this.graph.numDimensions(2);
 	//this.graph.nodeRelSize(10);
 }
+
+const specialMetabolites = {
+	"M_atp_c": true,
+	"M_nad_c": true,
+	"M_h_c": true,
+	"M_pi_c": true,
+	"M_adp_c": true,
+	"M_h2o_c": true
+};
 
 MetabolicGraph.prototype.setReactions = function(list) {
 	let reactions = [];
@@ -39,7 +51,9 @@ MetabolicGraph.prototype.setReactions = function(list) {
 		reactions.push(r);
 
 		for (var x in r.metabolites) {
-			metabs[x] = r.metabolites[x];
+			if (!specialMetabolites.hasOwnProperty(x)) {
+				metabs[x] = r.metabolites[x];
+			}
 		}
 	}
 
@@ -54,32 +68,44 @@ MetabolicGraph.prototype.setReactions = function(list) {
 		if (reactions[i].flux > maxflux) maxflux = reactions[i].flux;
 	}
 
-	var fluxscale = 10.0 / maxflux;
+	var fluxscale = 5.0 / maxflux;
 
 	for (var i=0; i<reactions.length; i++) {
-		nodes[reactions[i].id] = {id: reactions[i].id, name: reactions[i].name, flux: reactions[i].flux, val: reactions[i].flux*fluxscale + 5, type: "reaction"};
+		let value = reactions[i].flux*fluxscale + 1;
+		nodes[reactions[i].id] = {id: reactions[i].id, name: reactions[i].name, flux: reactions[i].flux, val: value, type: "reaction"};
 		for (var x in reactions[i].inputs) {
-			links.push({source: nodes[x], target: nodes[reactions[i].id]});
+			if (specialMetabolites.hasOwnProperty(x)) {
+				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite"};
+				links.push({source: nodes[x+reactions[i].id], target: nodes[reactions[i].id], input: true, val: value, special: true});
+			} else {
+				links.push({source: nodes[x], target: nodes[reactions[i].id], input: true, val: value});
+			}
 		}
 
 		for (var x in reactions[i].outputs) {
-			links.push({source: nodes[reactions[i].id], target: nodes[x]});
+			if (specialMetabolites.hasOwnProperty(x)) {
+				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite"};
+				links.push({source: nodes[reactions[i].id], target: nodes[x+reactions[i].id], val: value, special: true});
+			} else {
+				links.push({source: nodes[reactions[i].id], target: nodes[x], val: value});
+			}
 		}
 	}
 
+	//console.log(nodes, links);
 	this.graphData({nodes: nodes, links: links});
 }
 
 MetabolicGraph.prototype.graphData = function(data) {
-	var width = 960,
-    height = 500;
+	var width = 2000,
+    height = 2000;
 
 	var force = d3.layout.force()
 		.nodes(d3.values(data.nodes))
 		.links(data.links)
 		.size([width, height])
 		.linkDistance(60)
-		.charge(-300)
+		.charge(-600)
 		.on("tick", tick)
 		.start();
 
@@ -97,34 +123,37 @@ MetabolicGraph.prototype.graphData = function(data) {
 		.attr("refY", -1.5)
 		.attr("markerWidth", 6)
 		.attr("markerHeight", 6)
+		//.attr("style", "stroke-width: 1.5px")
 		.attr("orient", "auto")
 	  .append("svg:path")
 		.attr("d", "M0,-5L10,0L0,5");
+
 
 	// add the links and the arrows
 	var path = svg.append("svg:g").selectAll("path")
 		.data(force.links())
 	  .enter().append("svg:path")
 	//    .attr("class", function(d) { return "link " + d.type; })
-		.attr("class", "link")
-		.attr("marker-end", "url(#end)");
+		.attr("class", function(d) { return (d.special) ? "link special" : "link"; })
+		.attr("style", function(d) { return "stroke-width: " + Math.round(d.val) + "px"; })
+		.attr("marker-end", function(d) { return (d.input) ? "" : "url(#end)"; });
 
 	// define the nodes
 	var node = svg.selectAll(".node")
 		.data(force.nodes())
 	  .enter().append("g")
-		.attr("class", function(d) { return "node " + d.type; })
+		.attr("class", function(d) { return ((d.special) ? "node special" : "node") + " " + d.type; })
 		.call(force.drag);
 
 	// add the nodes
 	node.append("circle")
-		.attr("r", function(d) { return Math.floor(d.val); });
+		.attr("r", function(d) { return (d.type == "metabolite") ? 5 : 1; });
 
 	// add the text 
 	node.append("text")
 		.attr("x", 12)
 		.attr("dy", ".35em")
-		.text(function(d) { return (d.type == "metabolite") ? d.name.substring(2) : "" + d.flux.toFixed(2); });
+		.text(function(d) { return (d.type == "metabolite") ? d.name.substring(2) : ""; });
 
 	// add the curvy lines
 	function tick() {
@@ -135,7 +164,7 @@ MetabolicGraph.prototype.graphData = function(data) {
 		    return "M" + 
 		        d.source.x + "," + 
 		        d.source.y + "A" + 
-		        dr + "," + dr + " 0 0,1 " + 
+		        dr + "," + dr + " 0 0," + ((d.input) ? "0" : "1") + " " + 
 		        d.target.x + "," + 
 		        d.target.y;
 		});

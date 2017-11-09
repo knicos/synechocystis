@@ -55,6 +55,7 @@ ReactionList.prototype.setReactions = function(list) {
 		let label = document.createElement("div");
 		label.className = "synechocystis-reactionname";
 		label.innerText = ((r.name !== null) ? r.name : r.id.substring(2));
+		label.title = r.id.substring(2);
 		re.appendChild(label);
 
 		let params1 = document.createElement("div");
@@ -82,6 +83,11 @@ ReactionList.prototype.setReactions = function(list) {
 		objbut.innerText = "Objective";
 		buttons.appendChild(objbut);
 
+		let fluxvalue = document.createElement("div");
+		fluxvalue.className = "synechocystis-flux";
+		fluxvalue.innerText = r.flux.toFixed(4);
+		if (Math.abs(r.flux) < 0.0000000001) fluxvalue.className += " blocked";
+		re.appendChild(fluxvalue);
 
 		this.reelement.appendChild(re);
 	}
