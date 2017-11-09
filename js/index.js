@@ -6,6 +6,7 @@ window.FBA = FBA;
 const SearchPanel = require('./ui/searchpanel.js');
 const ReactionList = require('./ui/reactionlist.js');
 const MetabolicGraph = require('./ui/metgraph.js');
+const UTIL = require('./util.js');
 
 let refba = null;
 
@@ -42,7 +43,7 @@ function create(model, cb) {
 		window.model = m;
 
 		// Do initial FBA
-		m.objective = m.getReactionById("R_Ec_biomass_SynMixo");
+		m.objective = m.getReactionById("R_Ec_biomass_SynAuto");
 		FBA.run(m, m.objective, function(objective, results) {
 			for (var x in results) {
 				m.getReactionById(x).flux = results[x];
@@ -63,7 +64,8 @@ function create(model, cb) {
 				}
 				console.log("Objective: ", objective);
 			});
-		}
+		},
+		UTIL: UTIL
 	};
 }
 

@@ -14,6 +14,10 @@ path.link.special {
 	stroke-dasharray: 2, 2;
 }
 
+path.link.blocked {
+	stroke: rgba(255,0,0,0.3);
+}
+
 circle {
   fill: blue;
   stroke: #222;
@@ -28,11 +32,22 @@ circle {
 	fill: red;
 }
 
+.metabolite.blocked > circle {
+	fill-opacity: 0.3;
+}
+
+.metabolite.dead > circle {
+	fill: red;
+}
+
 text {
   fill: black;
-  text-shadow: 0 0 10px white;
   font: 14px sans-serif;
   pointer-events: none;
+}
+
+.metabolite.blocked > text {
+	fill-opacity: 0.3;
 }
 
 </style>

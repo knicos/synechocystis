@@ -1,4 +1,5 @@
 //const ForceGraph3D = require('3d-force-graph');
+const metanal = require('../metabolite-analysis.js');
 
 function MetabolicGraph(parent) {
 	this.element = document.createElement("div");
@@ -85,7 +86,7 @@ MetabolicGraph.prototype.setReactions = function(list) {
 
 	var nodes = {};
 	for (var x in metabs) {
-		nodes[x] = {"id": x, "name": x, "val": 3, type: "metabolite"};
+		nodes[x] = {"id": x, "name": x, "val": 3, type: "metabolite", fullname: metabs[x].name, dead: !metanal.hasProductionFlux(metabs[x])};
 	}
 
 	var links = [];
@@ -98,22 +99,23 @@ MetabolicGraph.prototype.setReactions = function(list) {
 
 	for (var i=0; i<reactions.length; i++) {
 		let value = reactions[i].flux*fluxscale + 1;
+		let blocked = Math.abs(reactions[i].flux) < 0.00000000000001;
 		nodes[reactions[i].id] = {id: reactions[i].id, name: reactions[i].name, flux: reactions[i].flux, val: value, type: "reaction"};
 		for (var x in reactions[i].inputs) {
 			if (specialMetabolites.hasOwnProperty(x)) {
-				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite"};
-				links.push({source: nodes[x+reactions[i].id], target: nodes[reactions[i].id], input: true, val: value, special: true});
+				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite", blocked: blocked};
+				links.push({source: nodes[x+reactions[i].id], target: nodes[reactions[i].id], input: true, val: value, special: true, blocked: blocked});
 			} else {
-				links.push({source: nodes[x], target: nodes[reactions[i].id], input: true, val: value});
+				links.push({source: nodes[x], target: nodes[reactions[i].id], input: true, val: value, blocked: blocked});
 			}
 		}
 
 		for (var x in reactions[i].outputs) {
 			if (specialMetabolites.hasOwnProperty(x)) {
-				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite"};
-				links.push({source: nodes[reactions[i].id], target: nodes[x+reactions[i].id], val: value, special: true});
+				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite", blocked: blocked};
+				links.push({source: nodes[reactions[i].id], target: nodes[x+reactions[i].id], val: value, special: true, blocked: blocked});
 			} else {
-				links.push({source: nodes[reactions[i].id], target: nodes[x], val: value});
+				links.push({source: nodes[reactions[i].id], target: nodes[x], val: value, blocked: blocked});
 			}
 		}
 	}
@@ -162,7 +164,7 @@ MetabolicGraph.prototype.graphData = function(data) {
 		.data(force.links())
 	  .enter().append("svg:path")
 	//    .attr("class", function(d) { return "link " + d.type; })
-		.attr("class", function(d) { return (d.special) ? "link special" : "link"; })
+		.attr("class", function(d) { return ((d.special) ? "link special" : "link") + ((d.blocked) ? " blocked" : ""); })
 		.attr("style", function(d) { return "stroke-width: " + Math.round(d.val) + "px"; })
 		.attr("marker-end", function(d) { return (d.input) ? "" : "url(#end)"; });
 
@@ -170,12 +172,14 @@ MetabolicGraph.prototype.graphData = function(data) {
 	var node = svg.selectAll(".node")
 		.data(force.nodes())
 	  .enter().append("g")
-		.attr("class", function(d) { return ((d.special) ? "node special" : "node") + " " + d.type; })
+		.attr("class", function(d) { return ((d.special) ? "node special" : "node") + " " + d.type + ((d.blocked) ? " blocked" : "") + ((d.dead) ? " dead" : ""); })
 		.call(force.drag);
 
 	// add the nodes
 	node.append("circle")
-		.attr("r", function(d) { return (d.type == "metabolite") ? 5 : 1; });
+		.attr("r", function(d) { return (d.type == "metabolite") ? 6 : 2; })
+		.attr("title", function(d) { return d.name; })
+		.append("title").text(function(d) { return (d.type == "metabolite" && d.fullname) ? d.fullname : d.name; });
 
 	// add the text 
 	node.append("text")
