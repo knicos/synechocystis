@@ -31,7 +31,33 @@ const specialMetabolites = {
 	"M_h_c": true,
 	"M_pi_c": true,
 	"M_adp_c": true,
-	"M_h2o_c": true
+	"M_h2o_c": true,
+	"M_o2_c": true,
+	"M_nadph_c": true,
+	"M_co2_c": true,
+	"M_nadh_c": true,
+
+	"M_atp_x": true,
+	"M_nad_x": true,
+	"M_h_x": true,
+	"M_pi_x": true,
+	"M_adp_x": true,
+	"M_h2o_x": true,
+	"M_o2_x": true,
+	"M_nadph_x": true,
+	"M_co2_x": true,
+	"M_nadh_x": true,
+
+	"M_atp_p": true,
+	"M_nad_p": true,
+	"M_h_p": true,
+	"M_pi_p": true,
+	"M_adp_p": true,
+	"M_h2o_p": true,
+	"M_o2_p": true,
+	"M_nadph_p": true,
+	"M_co2_p": true,
+	"M_nadh_p": true
 };
 
 MetabolicGraph.prototype.setReactions = function(list) {
@@ -105,7 +131,7 @@ MetabolicGraph.prototype.graphData = function(data) {
 		.links(data.links)
 		.size([width, height])
 		.linkDistance(60)
-		.charge(-600)
+		.charge(-300)
 		.on("tick", tick)
 		.start();
 
@@ -121,8 +147,10 @@ MetabolicGraph.prototype.graphData = function(data) {
 		.attr("viewBox", "0 -5 10 10")
 		.attr("refX", 15)
 		.attr("refY", -1.5)
-		.attr("markerWidth", 6)
-		.attr("markerHeight", 6)
+		.attr("markerWidth", 8)
+		.attr("markerHeight", 8)
+		.attr("markerUnits","userSpaceOnUse")
+		//.attr("style","stroke-width: 3px")
 		//.attr("style", "stroke-width: 1.5px")
 		.attr("orient", "auto")
 	  .append("svg:path")
