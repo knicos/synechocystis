@@ -31,15 +31,34 @@ function initUI() {
 		refba = setTimeout(function() {
 			refba = null;
 			let m = window.model;
-			FBA.run(m, m.objective, function(objective, results) {
+			/*FBA.run(m, m.objective, function(objective, results) {
 				for (var x in results) {
 					m.getReactionById(x).flux = results[x];
 				}
 				console.log("Objective: ", objective);
-			});
+			});*/
+			doFBA(m)
 		}, 2000);
 	}
 	//reactionlist.setReactions(["R_PSP"]);
+}
+
+function doFBA(m, cb) {
+	FBA.run(m, m.objective, function(objective, results) {
+		m.objective.lower = results[m.objective.id];
+		m.objective.upper = m.objective.lower;
+
+		FBA.run(m, m.getReactionById("R_EX_photon_LPAREN_e_RPAREN_"), function(objective, results) {
+			for (var x in results) {
+				m.getReactionById(x).flux = results[x];
+			}
+
+			m.objective.lower = -999999;
+			m.objective.upper = 999999;
+			console.log("Objective: ", objective);	
+			if (cb) cb(objective);
+		});
+	});
 }
 
 function create(model, cb) {
@@ -50,11 +69,14 @@ function create(model, cb) {
 
 		// Do initial FBA
 		m.objective = m.getReactionById("R_Ec_biomass_SynAuto");
-		FBA.run(m, m.objective, function(objective, results) {
+		UTIL.makeAutotrophic(m,-999999,0);
+		m.index_reactions.R_HCO3E1.lower = -3.7;
+		/*FBA.run(m, m.objective, function(objective, results) {
 			for (var x in results) {
 				m.getReactionById(x).flux = results[x];
 			}
-		});
+		});*/
+		doFBA(m);
 
 		initUI();
 
@@ -34643,6 +34665,9 @@ function loadSBMLString(data, cb) {
 			for (var j=0; j<psArray.length; j++) {
 				var stoich = (psArray[j].$.stoichiometry !== undefined) ? parseFloat(psArray[j].$.stoichiometry) : 1;
 				ps[psArray[j].$.species] = stoich;
+				if (rs.hasOwnProperty(psArray[j].$.species)) {
+					console.warn("Metabolite on both sides", data.$.id);
+				}
 			}
 
 			let r = new Reaction(
