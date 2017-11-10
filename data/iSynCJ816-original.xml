@@ -10953,6 +10953,7 @@
                 <listOfReactants>
 					<speciesReference species="M_co2_x" stoichiometry="1"/>
                     <speciesReference species="M_h2o_x" stoichiometry="1"/>
+                    <!--speciesReference species="M_h2co3_x" stoichiometry="1"/-->
                 </listOfReactants>
                 <listOfProducts>
                     <speciesReference species="M_h2co3_x" stoichiometry="1"/>
@@ -32676,7 +32677,7 @@
             <reaction id="R_GLUttrappp" name="TRAP system glutamate simport (periplasm)" reversible="false">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">
-                        <p>GENE_ASSOCIATION:(sll1102 and sll1103 and sll1104)</p>
+                        <p>GENE_ASSOCIATION:(sll1102 and sll1103and sll1104)</p>
                         <p>SUBSYSTEM:Transport</p>
                         <p>EC Number:</p>
                         <p>Confidence Level:</p>
@@ -34921,7 +34922,7 @@
                     </listOfParameters>
                 </kineticLaw>
             </reaction>
-            <reaction id="R_PDHcr" name="dihydrolipoylprotein:NAD+ oxidoreductase">
+            <reaction id="PDHcr" name="dihydrolipoylprotein:NAD+ oxidoreductase">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">
                         <p>GENE_ASSOCIATION:slr1096</p>

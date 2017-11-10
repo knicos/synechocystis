@@ -2148,6 +2148,27 @@
                     </body>
                 </notes>
             </species>
+			<species id="M_e438_u" name="Photons with 438nm wavelength" compartment="u">
+                <notes>
+                    <body xmlns="http://www.w3.org/1999/xhtml">
+                        <p>CHARGE:0</p>
+                    </body>
+                </notes>
+            </species>
+			<species id="M_e430_u" name="Photons with 430nm wavelength" compartment="u">
+                <notes>
+                    <body xmlns="http://www.w3.org/1999/xhtml">
+                        <p>CHARGE:0</p>
+                    </body>
+                </notes>
+            </species>
+			<species id="M_e674_u" name="Photons with 674nm wavelength" compartment="u">
+                <notes>
+                    <body xmlns="http://www.w3.org/1999/xhtml">
+                        <p>CHARGE:0</p>
+                    </body>
+                </notes>
+            </species>
             <species id="M_e700_u" name="Photons with 700nm wavelength" compartment="u">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">
@@ -10953,6 +10974,7 @@
                 <listOfReactants>
 					<speciesReference species="M_co2_x" stoichiometry="1"/>
                     <speciesReference species="M_h2o_x" stoichiometry="1"/>
+                    <speciesReference species="M_h2co3_x" stoichiometry="1"/>
                 </listOfReactants>
                 <listOfProducts>
                     <speciesReference species="M_h2co3_x" stoichiometry="1"/>
@@ -18610,7 +18632,7 @@
                     </listOfParameters>
                 </kineticLaw>
             </reaction>
-            <reaction id="R_PHOTON680" name="Photons of 680nm" reversible="false">
+			<reaction id="R_PHOTON680" name="Photons of 680nm" reversible="false">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">
                         <p>GENE_ASSOCIATION:</p>
@@ -18625,36 +18647,10 @@
                     <speciesReference species="M_photon_e1_u" stoichiometry="1"/>
                 </listOfReactants>
                 <listOfProducts>
-                    <speciesReference species="M_e680_u" stoichiometry="1"/>
-                </listOfProducts>
-                <kineticLaw>
-                    <math xmlns="http://www.w3.org/1998/Math/MathML">
-                        <ci> FLUX_VALUE </ci>
-                    </math>
-                    <listOfParameters>
-                        <parameter id="LOWER_BOUND" value="0" units="mmol_per_gDW_per_hr"/>
-                        <parameter id="UPPER_BOUND" value="999999" units="mmol_per_gDW_per_hr"/>
-                        <parameter id="FLUX_VALUE" value="0" units="mmol_per_gDW_per_hr"/>
-                        <parameter id="OBJECTIVE_COEFFICIENT" value="0" units="mmol_per_gDW_per_hr"/>
-                    </listOfParameters>
-                </kineticLaw>
-            </reaction>
-            <reaction id="R_PHOTON700" name="Photons of 700nm" reversible="false">
-                <notes>
-                    <body xmlns="http://www.w3.org/1999/xhtml">
-                        <p>GENE_ASSOCIATION:</p>
-                        <p>SUBSYSTEM:Photosynthesis</p>
-                        <p>EC Number:</p>
-                        <p>Confidence Level:</p>
-                        <p>AUTHORS:</p>
-                        <p/>
-                    </body>
-                </notes>
-                <listOfReactants>
-                    <speciesReference species="M_photon_e1_u" stoichiometry="1"/>
-                </listOfReactants>
-                <listOfProducts>
-                    <speciesReference species="M_e700_u" stoichiometry="1"/>
+                    <speciesReference species="M_e430_u" stoichiometry="0.0940621478367638"/>
+					<speciesReference species="M_e438_u" stoichiometry="0.103570250579771"/>
+					<speciesReference species="M_e674_u" stoichiometry="0.0801841843014272"/>
+					<speciesReference species="M_e680_u" stoichiometry="0.0939578459776694"/>
                 </listOfProducts>
                 <kineticLaw>
                     <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -19513,7 +19509,7 @@
                     </listOfParameters>
                 </kineticLaw>
             </reaction>
-            <reaction id="R_PSIa" name="photosystem I" reversible="false">
+            <reaction id="R_PSIa_red" name="photosystem I" reversible="false">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">
                         <p>GENE_ASSOCIATION:(sll0226 and (sll0629 or ssr0390) and sll0634 and sll0819 and slr0171 and slr0737 and slr0823 and slr1655 and slr1834 and slr1835 and sml0008 and smr0004 and smr0005 and ssl0563 and ssr2831 and ssr2016)</p>
@@ -19525,7 +19521,39 @@
                     </body>
                 </notes>
                 <listOfReactants>
-                    <speciesReference species="M_e700_u" stoichiometry="1"/>
+                    <speciesReference species="M_e680_u" stoichiometry="1"/>
+                    <speciesReference species="M_fdxo_DASH_2_2_c" stoichiometry="1"/>
+                    <speciesReference species="M_p700_u" stoichiometry="1"/>
+                </listOfReactants>
+                <listOfProducts>
+                    <speciesReference species="M_fdxr_DASH_2_2_c" stoichiometry="1"/>
+                    <speciesReference species="M_p700p_u" stoichiometry="1"/>
+                </listOfProducts>
+                <kineticLaw>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <ci> FLUX_VALUE </ci>
+                    </math>
+                    <listOfParameters>
+                        <parameter id="LOWER_BOUND" value="0" units="mmol_per_gDW_per_hr"/>
+                        <parameter id="UPPER_BOUND" value="999999" units="mmol_per_gDW_per_hr"/>
+                        <parameter id="FLUX_VALUE" value="0" units="mmol_per_gDW_per_hr"/>
+                        <parameter id="OBJECTIVE_COEFFICIENT" value="0" units="mmol_per_gDW_per_hr"/>
+                    </listOfParameters>
+                </kineticLaw>
+            </reaction>
+			<reaction id="R_PSIa_blue" name="photosystem I (438nm)" reversible="false">
+                <notes>
+                    <body xmlns="http://www.w3.org/1999/xhtml">
+                        <p>GENE_ASSOCIATION:(sll0226 and (sll0629 or ssr0390) and sll0634 and sll0819 and slr0171 and slr0737 and slr0823 and slr1655 and slr1834 and slr1835 and sml0008 and smr0004 and smr0005 and ssl0563 and ssr2831 and ssr2016)</p>
+                        <p>SUBSYSTEM:Photosynthesis</p>
+                        <p>EC Number:</p>
+                        <p>Confidence Level:</p>
+                        <p>AUTHORS:</p>
+                        <p/>
+                    </body>
+                </notes>
+                <listOfReactants>
+                    <speciesReference species="M_e438_u" stoichiometry="1"/>
                     <speciesReference species="M_fdxo_DASH_2_2_c" stoichiometry="1"/>
                     <speciesReference species="M_p700_u" stoichiometry="1"/>
                 </listOfReactants>
@@ -19671,7 +19699,7 @@
                     </listOfParameters>
                 </kineticLaw>
             </reaction>
-            <reaction id="R_SOPSI" name="superoxide at PSI" reversible="false">
+            <reaction id="R_SOPSI_red" name="superoxide at PSI(680nm)" reversible="false">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">
                         <p>GENE_ASSOCIATION:(sll0226 and (sll0629 or ssr0390) and sll0634 and sll0819 and slr0171 and slr0737 and slr0823 and slr1655 and slr1834 and slr1835 and sml0008 and smr0004 and smr0005 and ssl0563 and ssr2831)</p>
@@ -19683,7 +19711,39 @@
                     </body>
                 </notes>
                 <listOfReactants>
-                    <speciesReference species="M_e700_u" stoichiometry="1"/>
+                    <speciesReference species="M_e680_u" stoichiometry="1"/>
+                    <speciesReference species="M_o2_l" stoichiometry="1"/>
+                    <speciesReference species="M_p700_u" stoichiometry="1"/>
+                </listOfReactants>
+                <listOfProducts>
+                    <speciesReference species="M_o2_DASH__c" stoichiometry="1"/>
+                    <speciesReference species="M_p700p_u" stoichiometry="1"/>
+                </listOfProducts>
+                <kineticLaw>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <ci> FLUX_VALUE </ci>
+                    </math>
+                    <listOfParameters>
+                        <parameter id="LOWER_BOUND" value="0" units="mmol_per_gDW_per_hr"/>
+                        <parameter id="UPPER_BOUND" value="999999" units="mmol_per_gDW_per_hr"/>
+                        <parameter id="FLUX_VALUE" value="0" units="mmol_per_gDW_per_hr"/>
+                        <parameter id="OBJECTIVE_COEFFICIENT" value="0" units="mmol_per_gDW_per_hr"/>
+                    </listOfParameters>
+                </kineticLaw>
+            </reaction>
+			<reaction id="R_SOPSI_blue" name="superoxide at PSI (438nm)" reversible="false">
+                <notes>
+                    <body xmlns="http://www.w3.org/1999/xhtml">
+                        <p>GENE_ASSOCIATION:(sll0226 and (sll0629 or ssr0390) and sll0634 and sll0819 and slr0171 and slr0737 and slr0823 and slr1655 and slr1834 and slr1835 and sml0008 and smr0004 and smr0005 and ssl0563 and ssr2831)</p>
+                        <p>SUBSYSTEM:Oxidative phosphorylation</p>
+                        <p>EC Number:</p>
+                        <p>Confidence Level:</p>
+                        <p>AUTHORS:</p>
+                        <p/>
+                    </body>
+                </notes>
+                <listOfReactants>
+                    <speciesReference species="M_e438_u" stoichiometry="1"/>
                     <speciesReference species="M_o2_l" stoichiometry="1"/>
                     <speciesReference species="M_p700_u" stoichiometry="1"/>
                 </listOfReactants>
@@ -19766,7 +19826,7 @@
                     </listOfParameters>
                 </kineticLaw>
             </reaction>
-            <reaction id="R_PSIIa" name="photosystem II" reversible="false">
+            <reaction id="R_PSIIa_red" name="photosystem II (674nm)" reversible="false">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">
                         <p>GENE_ASSOCIATION:(sll0258 and sll0427 and sll0849 and sll0851 and sll1194 and sll1398 and sll1418 and sll1867 and slr0906 and slr0927 and slr1181 and slr1311 and slr1645 and slr1739 and slr2034 and sml0001 and sml0002 and sml0003 and sml0005 and sml0007 and smr0001 and smr0006 and smr0007 and smr0008 and smr0009 and ssl2598 and ssr3451 and sll0217 and sll0219)</p>
@@ -19778,7 +19838,39 @@
                     </body>
                 </notes>
                 <listOfReactants>
-                    <speciesReference species="M_e680_u" stoichiometry="1"/>
+                    <speciesReference species="M_e674_u" stoichiometry="1"/>
+                    <speciesReference species="M_p680_u" stoichiometry="1"/>
+                    <speciesReference species="M_qa_u" stoichiometry="1"/>
+                </listOfReactants>
+                <listOfProducts>
+                    <speciesReference species="M_p680p_u" stoichiometry="1"/>
+                    <speciesReference species="M_qan_u" stoichiometry="1"/>
+                </listOfProducts>
+                <kineticLaw>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <ci> FLUX_VALUE </ci>
+                    </math>
+                    <listOfParameters>
+                        <parameter id="LOWER_BOUND" value="0" units="mmol_per_gDW_per_hr"/>
+                        <parameter id="UPPER_BOUND" value="999999" units="mmol_per_gDW_per_hr"/>
+                        <parameter id="FLUX_VALUE" value="0" units="mmol_per_gDW_per_hr"/>
+                        <parameter id="OBJECTIVE_COEFFICIENT" value="0" units="mmol_per_gDW_per_hr"/>
+                    </listOfParameters>
+                </kineticLaw>
+            </reaction>
+			<reaction id="R_PSIIa_blue" name="photosystem II (430nm)" reversible="false">
+                <notes>
+                    <body xmlns="http://www.w3.org/1999/xhtml">
+                        <p>GENE_ASSOCIATION:(sll0258 and sll0427 and sll0849 and sll0851 and sll1194 and sll1398 and sll1418 and sll1867 and slr0906 and slr0927 and slr1181 and slr1311 and slr1645 and slr1739 and slr2034 and sml0001 and sml0002 and sml0003 and sml0005 and sml0007 and smr0001 and smr0006 and smr0007 and smr0008 and smr0009 and ssl2598 and ssr3451 and sll0217 and sll0219)</p>
+                        <p>SUBSYSTEM:Photosynthesis</p>
+                        <p>EC Number:</p>
+                        <p>Confidence Level:</p>
+                        <p>AUTHORS:</p>
+                        <p/>
+                    </body>
+                </notes>
+                <listOfReactants>
+                    <speciesReference species="M_e430_u" stoichiometry="1"/>
                     <speciesReference species="M_p680_u" stoichiometry="1"/>
                     <speciesReference species="M_qa_u" stoichiometry="1"/>
                 </listOfReactants>
@@ -32676,7 +32768,7 @@
             <reaction id="R_GLUttrappp" name="TRAP system glutamate simport (periplasm)" reversible="false">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">
-                        <p>GENE_ASSOCIATION:(sll1102 and sll1103 and sll1104)</p>
+                        <p>GENE_ASSOCIATION:(sll1102 and sll1103and sll1104)</p>
                         <p>SUBSYSTEM:Transport</p>
                         <p>EC Number:</p>
                         <p>Confidence Level:</p>
@@ -34921,7 +35013,7 @@
                     </listOfParameters>
                 </kineticLaw>
             </reaction>
-            <reaction id="R_PDHcr" name="dihydrolipoylprotein:NAD+ oxidoreductase">
+            <reaction id="PDHcr" name="dihydrolipoylprotein:NAD+ oxidoreductase">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">
                         <p>GENE_ASSOCIATION:slr1096</p>
