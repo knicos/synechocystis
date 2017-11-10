@@ -63,8 +63,8 @@ function create(model, cb) {
 
 		// Do initial FBA
 		m.objective = m.getReactionById("R_Ec_biomass_SynAuto");
-		UTIL.makeAutotrophic(m,-999999,0);
-		m.index_reactions.R_HCO3E1.lower = -3.7;
+		UTIL.makeAutotrophic(m,-999999,3.7);
+		//m.index_reactions.R_HCO3E1.lower = -3.7;
 		/*FBA.run(m, m.objective, function(objective, results) {
 			for (var x in results) {
 				m.getReactionById(x).flux = results[x];
