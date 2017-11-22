@@ -1,5 +1,6 @@
 const SBML = require('metabolic-model');
 const FBA = require('flux-balance-analysis');
+const KEGG = require('kegg-db');
 
 window.FBA = FBA;
 
@@ -55,6 +56,26 @@ function doFBA(m, cb) {
 	});
 }
 
+function knockout(m, gene, cb) {
+	
+}
+
+function addKEGGReaction(m, rid, compartment, cb) {
+	KEGG.getReactionById(rid, function(data) {
+		if (data) {
+			console.log("KEGG", data);
+		}
+	});
+}
+
+function addTransportReaction(m, met_a, met_b, cb) {
+
+}
+
+function setObjectiveMetabolite(m, met_b, ratio) {
+
+}
+
 function create(model, cb) {
 	var callback = (typeof(model) == "function") ? model : cb;
 	var filename = (typeof(model) == "string") ? model : "data/iSynCJ816.xml";
@@ -87,7 +108,9 @@ function create(model, cb) {
 				console.log("Objective: ", objective);
 			});
 		},
-		UTIL: UTIL
+		UTIL: UTIL,
+		knockout: knockout,
+		addKEGGReaction: addKEGGReaction
 	};
 }
 

@@ -17,6 +17,7 @@
   "dependencies": {
     "3d-force-graph": "^1.10.1",
     "flux-balance-analysis": "file:///home/nick/Repos/FBA",
+    "kegg-db": "0.0.2",
     "metabolic-model": "file:///home/nick/Repos/SBML"
   },
   "devDependencies": {
