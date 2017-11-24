@@ -20,6 +20,13 @@
             <compartment id="x" name="Carboxysome"/>
         </listOfCompartments>
         <listOfSpecies>
+			<species id="M_dna_c" name="DNA" compartment="c">
+                <notes>
+                    <body xmlns="http://www.w3.org/1999/xhtml">
+                        <p>CHARGE:0</p>
+                    </body>
+                </notes>
+            </species>
             <species id="M_10fthf_c" name="10-Formyltetrahydrofolate" compartment="c">
                 <notes>
                     <body xmlns="http://www.w3.org/1999/xhtml">

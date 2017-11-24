@@ -5,12 +5,23 @@
  *
  * While running this a jseden instance should be visible at localhost:8000
  */
-var connect = require('connect');
+var finalhandler = require('finalhandler')
+var http = require('http')
 var serveStatic = require('serve-static');
+var httpProxy = require('http-proxy');
+
+var proxy = httpProxy.createProxyServer({});
+var serve = serveStatic('./build');
+
 var port = 8000;
 
-var app = connect();
-app.use(serveStatic('./build')).listen(port, function () {
-  console.log('Dev Server at http://localhost:'+port);
+var server = http.createServer(function onRequest(req, res) {
+	if (req.url.startsWith("/KEGG/")) {
+		proxy.web(req, res, { ignorePath: true, target: 'http://rest.kegg.jp/'+req.url.substring(6) });
+	} else {
+		serve(req, res, finalhandler(req,res));
+	}
 });
+
+server.listen(port);
 

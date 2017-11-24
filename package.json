@@ -17,16 +17,18 @@
   "dependencies": {
     "3d-force-graph": "^1.10.1",
     "flux-balance-analysis": "file:///home/nick/Repos/FBA",
-    "kegg-db": "0.0.2",
+    "kegg-db": "0.0.5",
     "metabolic-model": "file:///home/nick/Repos/SBML"
   },
   "devDependencies": {
+	"finalhandler": "^1.1.0",
     "browserify": "^14.5.0",
     "connect": "^3.6.5",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.2.0",
     "grunt-contrib-uglify": "git+https://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-gh-pages": "^2.0.0",
+    "http-proxy": "^1.16.2",
     "mocha": "^4.0.1",
     "serve-static": "^1.13.1",
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony"

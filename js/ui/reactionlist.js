@@ -40,6 +40,28 @@ ReactionList.prototype.setReactions = function(list) {
 		}
 	}
 
+	function objectiveClick(e) {
+		var rid = e.target.getAttribute("data-rid");
+		var r = model.getReactionById(rid);
+		if (r) {
+			model.objective = r;
+			if (me.onedit) me.onedit.call(me, r);
+		}
+	}
+
+	function lockClick(e) {
+		var rid = e.target.getAttribute("data-rid");
+		var r = model.getReactionById(rid);
+		if (r) {
+			if (r.lower == r.upper) {
+				r.resetConstraints();
+			} else {
+				r.setConstraints(r.flux, r.flux);
+			}
+			if (me.onedit) me.onedit.call(me, r);
+		}
+	}
+
 	// Clear existing reactions
 	while (this.reelement.lastChild) this.reelement.removeChild(this.reelement.lastChild);
 
@@ -81,7 +103,18 @@ ReactionList.prototype.setReactions = function(list) {
 		re.appendChild(buttons);
 		let objbut = document.createElement("button");
 		objbut.innerText = "Objective";
+		objbut.setAttribute("data-rid", r.id);
+		objbut.onclick = objectiveClick;
 		buttons.appendChild(objbut);
+		let lockbut = document.createElement("button");
+		lockbut.innerText = "Lock";
+		lockbut.setAttribute("data-rid", r.id);
+		lockbut.onclick = lockClick;
+		buttons.appendChild(lockbut);
+		let disbut = document.createElement("button");
+		disbut.innerText = "Disable";
+		disbut.setAttribute("data-rid", r.id);
+		buttons.appendChild(disbut);
 
 		let fluxvalue = document.createElement("div");
 		fluxvalue.className = "synechocystis-flux";

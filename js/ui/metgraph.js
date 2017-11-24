@@ -64,6 +64,7 @@ const specialMetabolites = {
 MetabolicGraph.prototype.setReactions = function(list) {
 	let reactions = [];
 	let metabs = {};
+	var maxmflux = 0.0;
 
 	for (var i=0; i<list.length; i++) {
 		let r = null;
@@ -80,13 +81,16 @@ MetabolicGraph.prototype.setReactions = function(list) {
 		for (var x in r.metabolites) {
 			if (!specialMetabolites.hasOwnProperty(x)) {
 				metabs[x] = r.metabolites[x];
+				metanal.productionFlux(metabs[x]);
+				if (metabs[x].flux > maxmflux) maxmflux = metabs[x].flux;	
 			}
 		}
 	}
+	var mfluxscale = 5.0 / maxmflux;
 
 	var nodes = {};
 	for (var x in metabs) {
-		nodes[x] = {"id": x, "name": x, "val": 3, type: "metabolite", fullname: metabs[x].name, dead: !metanal.hasProductionFlux(metabs[x])};
+		nodes[x] = {"id": x, "name": x, "val": 3, type: "metabolite", fullname: metabs[x].name, flux: metabs[x].flux * mfluxscale, dead: !metanal.hasProductionFlux(metabs[x])};
 	}
 
 	var links = [];
@@ -103,7 +107,7 @@ MetabolicGraph.prototype.setReactions = function(list) {
 		nodes[reactions[i].id] = {id: reactions[i].id, name: reactions[i].name, flux: reactions[i].flux, val: value, type: "reaction"};
 		for (var x in reactions[i].inputs) {
 			if (specialMetabolites.hasOwnProperty(x)) {
-				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite", blocked: blocked};
+				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite", blocked: blocked, flux: 0.0};
 				links.push({source: nodes[x+reactions[i].id], target: nodes[reactions[i].id], input: true, val: value, special: true, blocked: blocked});
 			} else {
 				links.push({source: nodes[x], target: nodes[reactions[i].id], input: true, val: value, blocked: blocked});
@@ -112,7 +116,7 @@ MetabolicGraph.prototype.setReactions = function(list) {
 
 		for (var x in reactions[i].outputs) {
 			if (specialMetabolites.hasOwnProperty(x)) {
-				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite", blocked: blocked};
+				nodes[x+reactions[i].id] = {"id": x+reactions[i].id, "name": x, "val": 3, type: "metabolite", blocked: blocked, flux: 0.0};
 				links.push({source: nodes[reactions[i].id], target: nodes[x+reactions[i].id], val: value, special: true, blocked: blocked});
 			} else {
 				links.push({source: nodes[reactions[i].id], target: nodes[x], val: value, blocked: blocked});
@@ -177,7 +181,7 @@ MetabolicGraph.prototype.graphData = function(data) {
 
 	// add the nodes
 	node.append("circle")
-		.attr("r", function(d) { return (d.type == "metabolite") ? 6 : 2; })
+		.attr("r", function(d) { return (d.type == "metabolite") ? 6 + Math.floor(d.flux*4) : 2; })
 		.attr("title", function(d) { return d.name; })
 		.append("title").text(function(d) { return (d.type == "metabolite" && d.fullname) ? d.fullname : d.name; });
 
